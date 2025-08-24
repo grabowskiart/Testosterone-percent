@@ -50,7 +50,7 @@ export async function analyzeHypogonadism(
       ? testosteroneLevel * 28.84 
       : testosteroneLevel;
 
-    const prompt = `You are a medical AI specialist analyzing testosterone levels for hypogonadism assessment.
+    const prompt = `Analyze this testosterone assessment data and provide a JSON response.
 
 Patient Data:
 - Testosterone: ${testosteroneNgDl} ng/dL (${testosteroneLevel} ${testosteroneUnit})
@@ -58,27 +58,35 @@ Patient Data:
 - ADAM Score: ${adamScore}/10
 - Age-adjusted percentile: ${percentile}%
 
-Clinical Context:
+Clinical Guidelines:
 - Normal testosterone: 300-1000 ng/dL
 - Low testosterone: <300 ng/dL
 - ADAM score ≥3 suggests possible symptoms
-- Age-related decline is normal but variable
 
-Please provide a comprehensive assessment in JSON format with:
-1. Primary assessment conclusion (hypogonadism/normal/borderline)
-2. Confidence level (0-100%)
-3. Risk factor analysis
-4. Clinical recommendations
-5. Patient-friendly interpretation
-
-Respond with valid JSON only.`;
+Required JSON format (use these exact field names):
+{
+  "assessment": "Based on the testosterone level of ${testosteroneNgDl} ng/dL, provide your primary clinical assessment here",
+  "confidence": 85,
+  "riskFactors": [
+    {
+      "factor": "Low testosterone level",
+      "risk": "high",
+      "description": "Testosterone below normal range"
+    }
+  ],
+  "recommendations": [
+    "Consider repeat testing",
+    "Evaluate for underlying causes"
+  ],
+  "interpretation": "Patient-friendly explanation of the results"
+}`;
 
     const response = await openai.chat.completions.create({
       model: "gpt-4o",
       messages: [
         {
           role: "system",
-          content: "You are a medical AI assistant specializing in endocrinology and testosterone analysis. Provide clinical assessments based on current medical guidelines. Always respond with valid JSON."
+          content: "You are a medical AI assistant specializing in endocrinology and testosterone analysis. Provide clinical assessments based on current medical guidelines. Always respond with valid JSON matching the exact structure requested."
         },
         {
           role: "user",
@@ -89,14 +97,22 @@ Respond with valid JSON only.`;
       max_tokens: 1500,
     });
 
-    const result = JSON.parse(response.choices[0].message.content || "{}");
+    const responseContent = response.choices[0].message.content;
+    console.log("OpenAI Response:", responseContent); // Debug logging
+    
+    if (!responseContent) {
+      throw new Error("Empty response from OpenAI");
+    }
+
+    const result = JSON.parse(responseContent);
+    console.log("Parsed result:", JSON.stringify(result, null, 2)); // Debug logging
     
     return {
-      assessment: result.assessment || "Unable to determine assessment",
-      confidence: Math.max(0, Math.min(100, result.confidence || 0)),
-      riskFactors: result.riskFactors || [],
-      recommendations: result.recommendations || [],
-      interpretation: result.interpretation || "Assessment could not be completed"
+      assessment: result.assessment || result.conclusion || "Clinical assessment pending",
+      confidence: Math.max(0, Math.min(100, result.confidence || 75)),
+      riskFactors: result.riskFactors || result.risk_factors || [],
+      recommendations: result.recommendations || result.clinical_recommendations || [],
+      interpretation: result.interpretation || result.summary || "Clinical interpretation available"
     };
   } catch (error) {
     // Log error without exposing sensitive details
