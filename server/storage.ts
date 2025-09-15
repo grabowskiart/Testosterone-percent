@@ -41,6 +41,7 @@ export class MemStorage implements IStorage {
     const assessment: TestosteroneAssessment = {
       ...insertAssessment,
       testosteroneLevel: insertAssessment.testosteroneLevel.toString(),
+      adamResponses: insertAssessment.adamResponses ? JSON.stringify(insertAssessment.adamResponses) : null,
       id,
       createdAt: new Date(),
       percentile: null,
