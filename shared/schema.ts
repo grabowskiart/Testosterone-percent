@@ -15,6 +15,7 @@ export const testosteroneAssessments = pgTable("testosterone_assessments", {
   testosteroneUnit: varchar("testosterone_unit", { length: 10 }).notNull().default("ng/dl"),
   age: integer("age").notNull(),
   adamScore: integer("adam_score").notNull(),
+  adamResponses: text("adam_responses"), // JSON array of individual responses
   percentile: decimal("percentile", { precision: 5, scale: 2 }),
   aiAssessment: text("ai_assessment"),
   confidence: decimal("confidence", { precision: 5, scale: 2 }),
@@ -35,6 +36,7 @@ export const insertTestosteroneAssessmentSchema = createInsertSchema(testosteron
   testosteroneLevel: z.number().min(10).max(5000),
   age: z.number().min(18).max(100),
   adamScore: z.number().min(0).max(10),
+  adamResponses: z.array(z.boolean()).length(10).optional(),
   testosteroneUnit: z.enum(["ng/dl", "nmol/l"]).default("ng/dl"),
 });
 
