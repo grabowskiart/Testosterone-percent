@@ -23,10 +23,10 @@ export default function AssessmentForm({ onAssessmentComplete, onAssessmentStart
   const form = useForm<InsertTestosteroneAssessment>({
     resolver: zodResolver(insertTestosteroneAssessmentSchema),
     defaultValues: {
-      testosteroneLevel: 0,
+      testosteroneLevel: undefined as any,
       testosteroneUnit: "ng/dl",
-      age: 0,
-      adamScore: 0,
+      age: undefined as any,
+      adamScore: undefined as any,
     },
   });
 
@@ -60,7 +60,7 @@ export default function AssessmentForm({ onAssessmentComplete, onAssessmentStart
   const testosteroneValue = form.watch("testosteroneLevel");
   
   // Real-time unit conversion display
-  const convertedValue = testosteroneValue > 0 
+  const convertedValue = testosteroneValue && testosteroneValue > 0 
     ? convertTestosteroneUnits(testosteroneValue, currentUnit, currentUnit === "ng/dl" ? "nmol/l" : "ng/dl")
     : 0;
 
@@ -86,8 +86,14 @@ export default function AssessmentForm({ onAssessmentComplete, onAssessmentStart
                       type="number"
                       placeholder="Enter value..."
                       {...field}
+                      value={field.value || ""}
+                      onFocus={(e) => {
+                        if (field.value === 0) {
+                          field.onChange("");
+                        }
+                      }}
                       onChange={(e) => {
-                        const value = parseFloat(e.target.value) || 0;
+                        const value = e.target.value === "" ? undefined : parseFloat(e.target.value);
                         field.onChange(value);
                       }}
                       className="pr-20"
@@ -114,7 +120,7 @@ export default function AssessmentForm({ onAssessmentComplete, onAssessmentStart
                 </div>
                 <FormDescription>
                   Normal range: 300-1000 ng/dL (10.4-34.7 nmol/L)
-                  {testosteroneValue > 0 && (
+                  {testosteroneValue && testosteroneValue > 0 && (
                     <div className="mt-1 text-medical-blue">
                       Converts to: {convertedValue} {currentUnit === "ng/dl" ? "nmol/L" : "ng/dL"}
                     </div>
@@ -139,8 +145,14 @@ export default function AssessmentForm({ onAssessmentComplete, onAssessmentStart
                     min={18}
                     max={100}
                     {...field}
+                    value={field.value || ""}
+                    onFocus={(e) => {
+                      if (field.value === 0) {
+                        field.onChange("");
+                      }
+                    }}
                     onChange={(e) => {
-                      const value = parseInt(e.target.value) || 0;
+                      const value = e.target.value === "" ? undefined : parseInt(e.target.value);
                       field.onChange(value);
                     }}
                     data-testid="input-age"
@@ -171,8 +183,14 @@ export default function AssessmentForm({ onAssessmentComplete, onAssessmentStart
                     min={0}
                     max={10}
                     {...field}
+                    value={field.value || ""}
+                    onFocus={(e) => {
+                      if (field.value === 0) {
+                        field.onChange("");
+                      }
+                    }}
                     onChange={(e) => {
-                      const value = parseInt(e.target.value) || 0;
+                      const value = e.target.value === "" ? undefined : parseInt(e.target.value);
                       field.onChange(value);
                     }}
                     data-testid="input-adam-score"
