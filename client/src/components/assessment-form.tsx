@@ -33,14 +33,14 @@ interface AssessmentFormProps {
 
 export default function AssessmentForm({ onAssessmentComplete, onAssessmentStart }: AssessmentFormProps) {
   const { toast } = useToast();
-  const [currentUnit, setCurrentUnit] = useState<"ng/dl" | "nmol/l">("ng/dl");
+  const [currentUnit, setCurrentUnit] = useState<"ng/dl" | "nmol/l">("nmol/l");
   const [adamResponses, setAdamResponses] = useState<boolean[]>(new Array(10).fill(false));
 
   const form = useForm<InsertTestosteroneAssessment>({
     resolver: zodResolver(insertTestosteroneAssessmentSchema),
     defaultValues: {
       testosteroneLevel: undefined as any,
-      testosteroneUnit: "ng/dl",
+      testosteroneUnit: "nmol/l",
       age: undefined as any,
       adamScore: 0,
       adamResponses: new Array(10).fill(false),
@@ -145,14 +145,14 @@ export default function AssessmentForm({ onAssessmentComplete, onAssessmentStart
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="ng/dl">ng/dL</SelectItem>
                         <SelectItem value="nmol/l">nmol/L</SelectItem>
+                        <SelectItem value="ng/dl">ng/dL</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                 </div>
                 <FormDescription>
-                  Normal range: 300-1000 ng/dL (10.4-34.7 nmol/L)
+                  Normal range: 10.4-34.7 nmol/L (300-1000 ng/dL)
                   {testosteroneValue && testosteroneValue > 0 && (
                     <div className="mt-1 text-medical-blue">
                       Converts to: {convertedValue} {currentUnit === "ng/dl" ? "nmol/L" : "ng/dL"}

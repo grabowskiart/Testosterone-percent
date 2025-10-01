@@ -33,11 +33,11 @@ export const insertTestosteroneAssessmentSchema = createInsertSchema(testosteron
   createdAt: true,
   error: true,
 }).extend({
-  testosteroneLevel: z.number().min(10).max(5000),
+  testosteroneLevel: z.number().min(0.3).max(200),
   age: z.number().min(18).max(100),
   adamScore: z.number().min(0).max(10),
   adamResponses: z.array(z.boolean()).length(10).optional(),
-  testosteroneUnit: z.enum(["ng/dl", "nmol/l"]).default("ng/dl"),
+  testosteroneUnit: z.enum(["ng/dl", "nmol/l"]).default("nmol/l"),
 });
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
