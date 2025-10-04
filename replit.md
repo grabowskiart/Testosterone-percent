@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a medical web application designed to assess testosterone levels and provide AI-powered hypogonadism analysis. The application allows healthcare professionals to input patient data (testosterone levels, age, ADAM score) and receive comprehensive assessment results including percentile calculations, AI-driven risk analysis, and clinical recommendations. The tool supports both conventional (ng/dL) and SI (nmol/L) units and provides detailed medical interpretations for clinical decision support.
+This is a medical web application designed to assess testosterone levels and provide clinical analysis. The application allows healthcare professionals to input patient data (testosterone levels, age, ADAM questionnaire responses) and receive comprehensive assessment results including percentile calculations and clinical interpretations. The tool supports both conventional (ng/dL) and SI (nmol/L) units with nmol/L as the default entry unit.
 
 ## User Preferences
 
@@ -37,10 +37,11 @@ Preferred communication style: Simple, everyday language.
 - **User management** with username/password authentication schema
 - **Security middleware** ready for implementation of protected routes
 
-### External Service Integrations
-- **OpenAI GPT-4** integration for AI-powered hypogonadism risk assessment
-- **Medical calculations** using age-adjusted testosterone percentile algorithms
-- **ADAM questionnaire** scoring integration for comprehensive testosterone deficiency evaluation
+### Medical Calculations and Features
+- **Age-adjusted percentile calculations** using clinical reference ranges for testosterone levels
+- **ADAM questionnaire** with 10 individual questions for comprehensive testosterone deficiency symptom evaluation
+- **Automatic score calculation** from individual questionnaire responses
+- **Unit conversion** between ng/dL and nmol/L with real-time display
 
 ### Key Design Decisions
 
@@ -50,6 +51,6 @@ Preferred communication style: Simple, everyday language.
 
 **Schema-First Development**: Drizzle schema definitions serve as the single source of truth for data structures, with Zod validation automatically generated from database schemas.
 
-**Service Layer Pattern**: Business logic isolated in dedicated service modules (testosterone calculations, OpenAI integration) for better testability and maintainability.
+**Service Layer Pattern**: Business logic isolated in dedicated service modules (testosterone calculations, percentile algorithms) for better testability and maintainability.
 
 **Progressive Enhancement**: Application starts with in-memory storage and can be upgraded to full database persistence without changing the interface contracts.

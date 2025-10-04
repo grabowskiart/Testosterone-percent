@@ -3,7 +3,6 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertTestosteroneAssessmentSchema } from "@shared/schema";
 import { calculateTestosteronePercentile } from "./services/testosterone";
-import { analyzeHypogonadism } from "./services/openai";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Create testosterone assessment
@@ -18,42 +17,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
         validatedData.testosteroneUnit
       );
 
-      // Create initial assessment
+      // Create assessment with percentile
       const assessment = await storage.createTestosteroneAssessment({
         ...validatedData,
       });
 
-      // Get AI analysis
-      try {
-        const aiResult = await analyzeHypogonadism(
-          validatedData.testosteroneLevel,
-          validatedData.testosteroneUnit,
-          validatedData.age,
-          validatedData.adamScore,
-          percentile
-        );
+      const updatedAssessment = {
+        ...assessment,
+        percentile: percentile.toString(),
+        aiAssessment: null,
+        confidence: null,
+        error: null,
+      };
 
-        // Update assessment with AI results and percentile
-        const updatedAssessment = {
-          ...assessment,
-          percentile: percentile.toString(),
-          aiAssessment: JSON.stringify(aiResult),
-          confidence: aiResult.confidence.toString(),
-          error: null,
-        };
-
-        res.json(updatedAssessment);
-      } catch (aiError) {
-        console.error("AI analysis failed:", aiError);
-        // Return assessment with percentile but no AI analysis
-        res.json({
-          ...assessment,
-          percentile: percentile.toString(),
-          aiAssessment: null,
-          confidence: null,
-          error: "AI analysis unavailable - API key required"
-        });
-      }
+      res.json(updatedAssessment);
     } catch (error) {
       console.error("Assessment creation error:", error);
       res.status(400).json({ 
