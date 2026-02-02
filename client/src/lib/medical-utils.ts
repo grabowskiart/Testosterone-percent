@@ -14,12 +14,15 @@ export function convertTestosteroneUnits(value: number, fromUnit: string, toUnit
 }
 
 export function getTestosteroneInterpretation(percentile: number, testosteroneLevel: number, unit: string): string {
-  const testosteroneNgDl = unit === "nmol/l" 
-    ? convertTestosteroneUnits(testosteroneLevel, "nmol/l", "ng/dl") 
+  const testosteroneNmolL = unit === "ng/dl" 
+    ? convertTestosteroneUnits(testosteroneLevel, "ng/dl", "nmol/l") 
     : testosteroneLevel;
 
-  if (testosteroneNgDl < 300) {
+  // Low testosterone threshold is approximately 8 nmol/L
+  if (testosteroneNmolL < 8) {
     return "below normal range, suggesting possible hypogonadism";
+  } else if (percentile < 10) {
+    return "in the lower 10th percentile for their age";
   } else if (percentile < 25) {
     return "in the lower quartile for their age group";
   } else if (percentile >= 25 && percentile < 75) {
