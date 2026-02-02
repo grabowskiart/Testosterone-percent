@@ -1,43 +1,109 @@
-export interface TestosteroneReference {
-  ageRange: [number, number];
-  percentiles: {
-    p5: number;
-    p10: number;
-    p25: number;
-    p50: number;
-    p75: number;
-    p90: number;
-    p95: number;
-  };
+// Age-specific testosterone reference data (nmol/L) from clinical studies
+// Percentiles: 1, 2.5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 97.5, 99
+interface AgePercentiles {
+  p1: number;
+  p2_5: number;
+  p10: number;
+  p20: number;
+  p30: number;
+  p40: number;
+  p50: number;
+  p60: number;
+  p70: number;
+  p80: number;
+  p90: number;
+  p97_5: number;
+  p99: number;
 }
 
-// Age-specific testosterone reference ranges (ng/dL) based on clinical studies
-const testosteroneReferenceRanges: TestosteroneReference[] = [
-  {
-    ageRange: [18, 29],
-    percentiles: { p5: 270, p10: 300, p25: 400, p50: 550, p75: 700, p90: 850, p95: 950 }
-  },
-  {
-    ageRange: [30, 39],
-    percentiles: { p5: 250, p10: 280, p25: 370, p50: 520, p75: 650, p90: 800, p95: 900 }
-  },
-  {
-    ageRange: [40, 49],
-    percentiles: { p5: 230, p10: 260, p25: 350, p50: 490, p75: 620, p90: 760, p95: 850 }
-  },
-  {
-    ageRange: [50, 59],
-    percentiles: { p5: 210, p10: 240, p25: 320, p50: 460, p75: 590, p90: 720, p95: 800 }
-  },
-  {
-    ageRange: [60, 69],
-    percentiles: { p5: 190, p10: 220, p25: 300, p50: 430, p75: 560, p90: 680, p95: 750 }
-  },
-  {
-    ageRange: [70, 100],
-    percentiles: { p5: 170, p10: 200, p25: 280, p50: 400, p75: 530, p90: 640, p95: 700 }
-  }
-];
+const testosteroneByAge: Record<number, AgePercentiles> = {
+  3: { p1: 0, p2_5: 0, p10: 0.1, p20: 0.2, p30: 0.3, p40: 0.3, p50: 0.4, p60: 0.4, p70: 0.5, p80: 0.6, p90: 0.7, p97_5: 0.9, p99: 1 },
+  4: { p1: 0, p2_5: 0, p10: 0.1, p20: 0.2, p30: 0.3, p40: 0.3, p50: 0.4, p60: 0.5, p70: 0.5, p80: 0.6, p90: 0.7, p97_5: 0.9, p99: 1 },
+  5: { p1: 0, p2_5: 0, p10: 0.1, p20: 0.2, p30: 0.3, p40: 0.3, p50: 0.4, p60: 0.4, p70: 0.5, p80: 0.6, p90: 0.7, p97_5: 0.8, p99: 0.9 },
+  6: { p1: 0, p2_5: 0, p10: 0.1, p20: 0.2, p30: 0.2, p40: 0.3, p50: 0.3, p60: 0.4, p70: 0.4, p80: 0.5, p90: 0.6, p97_5: 0.8, p99: 0.9 },
+  7: { p1: 0, p2_5: 0, p10: 0, p20: 0.1, p30: 0.2, p40: 0.2, p50: 0.3, p60: 0.3, p70: 0.4, p80: 0.5, p90: 0.6, p97_5: 0.7, p99: 0.8 },
+  8: { p1: 0, p2_5: 0, p10: 0, p20: 0.1, p30: 0.1, p40: 0.2, p50: 0.2, p60: 0.3, p70: 0.3, p80: 0.4, p90: 0.5, p97_5: 0.7, p99: 0.8 },
+  9: { p1: 0, p2_5: 0, p10: 0, p20: 0, p30: 0.1, p40: 0.1, p50: 0.2, p60: 0.3, p70: 0.4, p80: 0.5, p90: 0.6, p97_5: 0.8, p99: 0.9 },
+  10: { p1: 0, p2_5: 0, p10: 0, p20: 0.1, p30: 0.2, p40: 0.2, p50: 0.3, p60: 0.4, p70: 0.5, p80: 0.7, p90: 0.9, p97_5: 1.2, p99: 1.3 },
+  11: { p1: 0, p2_5: 0, p10: 0.2, p20: 0.3, p30: 0.5, p40: 0.6, p50: 0.7, p60: 0.9, p70: 1.1, p80: 1.3, p90: 1.6, p97_5: 2.1, p99: 2.4 },
+  12: { p1: 0, p2_5: 0.3, p10: 0.8, p20: 1.1, p30: 1.3, p40: 1.5, p50: 1.7, p60: 2, p70: 2.4, p80: 2.8, p90: 3.4, p97_5: 4.3, p99: 4.8 },
+  13: { p1: 0.9, p2_5: 1.4, p10: 2.2, p20: 2.7, p30: 3.1, p40: 3.5, p50: 3.8, p60: 4.4, p70: 5.1, p80: 5.9, p90: 7, p97_5: 8.8, p99: 9.7 },
+  14: { p1: 2.3, p2_5: 3, p10: 4.4, p20: 5.2, p30: 5.9, p40: 6.4, p50: 6.9, p60: 8, p70: 9.2, p80: 10.5, p90: 12.4, p97_5: 15.3, p99: 16.9 },
+  15: { p1: 3.6, p2_5: 4.6, p10: 6.6, p20: 7.9, p30: 8.8, p40: 9.5, p50: 10.3, p60: 11.8, p70: 13.4, p80: 15.4, p90: 18, p97_5: 22.1, p99: 24.3 },
+  16: { p1: 4.6, p2_5: 5.9, p10: 8.3, p20: 9.8, p30: 11, p40: 11.9, p50: 12.9, p60: 14.7, p70: 16.7, p80: 19, p90: 22.2, p97_5: 27.2, p99: 29.9 },
+  17: { p1: 5.1, p2_5: 6.6, p10: 9.3, p20: 11.1, p30: 12.3, p40: 13.4, p50: 14.4, p60: 16.4, p70: 18.6, p80: 21.1, p90: 24.6, p97_5: 30, p99: 32.9 },
+  18: { p1: 5.5, p2_5: 7, p10: 9.8, p20: 11.7, p30: 13, p40: 14.1, p50: 15.2, p60: 17.2, p70: 19.4, p80: 22, p90: 25.6, p97_5: 31.1, p99: 34 },
+  19: { p1: 5.6, p2_5: 7.2, p10: 10, p20: 11.9, p30: 13.2, p40: 14.3, p50: 15.4, p60: 17.4, p70: 19.6, p80: 22.2, p90: 25.7, p97_5: 31.1, p99: 34.1 },
+  20: { p1: 5.8, p2_5: 7.3, p10: 10.1, p20: 11.9, p30: 13.2, p40: 14.3, p50: 15.4, p60: 17.4, p70: 19.5, p80: 21.9, p90: 25.4, p97_5: 30.7, p99: 33.5 },
+  21: { p1: 5.8, p2_5: 7.3, p10: 10, p20: 11.8, p30: 13.1, p40: 14.2, p50: 15.2, p60: 17.1, p70: 19.2, p80: 21.6, p90: 24.9, p97_5: 30, p99: 32.8 },
+  22: { p1: 5.9, p2_5: 7.3, p10: 10, p20: 11.7, p30: 12.9, p40: 14, p50: 15, p60: 16.8, p70: 18.8, p80: 21.2, p90: 24.4, p97_5: 29.3, p99: 32 },
+  23: { p1: 5.9, p2_5: 7.3, p10: 9.9, p20: 11.5, p30: 12.8, p40: 13.8, p50: 14.8, p60: 16.6, p70: 18.5, p80: 20.7, p90: 23.9, p97_5: 28.7, p99: 31.3 },
+  24: { p1: 5.9, p2_5: 7.2, p10: 9.8, p20: 11.4, p30: 12.6, p40: 13.6, p50: 14.5, p60: 16.3, p70: 18.2, p80: 20.4, p90: 23.4, p97_5: 28.1, p99: 30.6 },
+  25: { p1: 5.9, p2_5: 7.2, p10: 9.7, p20: 11.3, p30: 12.4, p40: 13.4, p50: 14.3, p60: 16, p70: 17.9, p80: 20, p90: 23, p97_5: 27.6, p99: 30 },
+  26: { p1: 5.8, p2_5: 7.2, p10: 9.6, p20: 11.1, p30: 12.3, p40: 13.2, p50: 14.1, p60: 15.8, p70: 17.6, p80: 19.7, p90: 22.6, p97_5: 27.1, p99: 29.5 },
+  27: { p1: 5.8, p2_5: 7.1, p10: 9.5, p20: 11, p30: 12.1, p40: 13.1, p50: 14, p60: 15.6, p70: 17.4, p80: 19.5, p90: 22.3, p97_5: 26.7, p99: 29.1 },
+  28: { p1: 5.8, p2_5: 7.1, p10: 9.4, p20: 10.9, p30: 12, p40: 13, p50: 13.8, p60: 15.5, p70: 17.2, p80: 19.2, p90: 22.1, p97_5: 26.4, p99: 28.8 },
+  29: { p1: 5.8, p2_5: 7, p10: 9.3, p20: 10.8, p30: 11.9, p40: 12.8, p50: 13.7, p60: 15.3, p70: 17, p80: 19.1, p90: 21.8, p97_5: 26.2, p99: 28.5 },
+  30: { p1: 5.7, p2_5: 7, p10: 9.3, p20: 10.8, p30: 11.8, p40: 12.7, p50: 13.6, p60: 15.2, p70: 16.9, p80: 18.9, p90: 21.7, p97_5: 25.9, p99: 28.2 },
+  31: { p1: 5.7, p2_5: 6.9, p10: 9.2, p20: 10.7, p30: 11.7, p40: 12.7, p50: 13.5, p60: 15.1, p70: 16.8, p80: 18.8, p90: 21.5, p97_5: 25.8, p99: 28 },
+  32: { p1: 5.7, p2_5: 6.9, p10: 9.1, p20: 10.6, p30: 11.7, p40: 12.6, p50: 13.4, p60: 15, p70: 16.7, p80: 18.7, p90: 21.4, p97_5: 25.6, p99: 27.9 },
+  33: { p1: 5.6, p2_5: 6.8, p10: 9.1, p20: 10.6, p30: 11.6, p40: 12.5, p50: 13.3, p60: 14.9, p70: 16.6, p80: 18.6, p90: 21.3, p97_5: 25.5, p99: 27.8 },
+  34: { p1: 5.6, p2_5: 6.8, p10: 9, p20: 10.5, p30: 11.5, p40: 12.4, p50: 13.3, p60: 14.9, p70: 16.5, p80: 18.5, p90: 21.2, p97_5: 25.4, p99: 27.7 },
+  35: { p1: 5.6, p2_5: 6.8, p10: 9, p20: 10.5, p30: 11.5, p40: 12.4, p50: 13.2, p60: 14.8, p70: 16.5, p80: 18.4, p90: 21.2, p97_5: 25.4, p99: 27.6 },
+  36: { p1: 5.5, p2_5: 6.7, p10: 9, p20: 10.4, p30: 11.5, p40: 12.3, p50: 13.2, p60: 14.7, p70: 16.4, p80: 18.4, p90: 21.1, p97_5: 25.3, p99: 27.6 },
+  37: { p1: 5.5, p2_5: 6.7, p10: 8.9, p20: 10.4, p30: 11.4, p40: 12.3, p50: 13.1, p60: 14.7, p70: 16.4, p80: 18.4, p90: 21.1, p97_5: 25.3, p99: 27.6 },
+  38: { p1: 5.4, p2_5: 6.7, p10: 8.9, p20: 10.3, p30: 11.4, p40: 12.3, p50: 13.1, p60: 14.7, p70: 16.4, p80: 18.3, p90: 21.1, p97_5: 25.3, p99: 27.6 },
+  39: { p1: 5.4, p2_5: 6.6, p10: 8.9, p20: 10.3, p30: 11.3, p40: 12.2, p50: 13.1, p60: 14.7, p70: 16.3, p80: 18.3, p90: 21.1, p97_5: 25.3, p99: 27.6 },
+  40: { p1: 5.4, p2_5: 6.6, p10: 8.8, p20: 10.3, p30: 11.3, p40: 12.2, p50: 13, p60: 14.6, p70: 16.3, p80: 18.3, p90: 21.1, p97_5: 25.3, p99: 27.6 },
+  41: { p1: 5.3, p2_5: 6.5, p10: 8.8, p20: 10.2, p30: 11.3, p40: 12.2, p50: 13, p60: 14.6, p70: 16.3, p80: 18.3, p90: 21.1, p97_5: 25.3, p99: 27.7 },
+  42: { p1: 5.3, p2_5: 6.5, p10: 8.8, p20: 10.2, p30: 11.3, p40: 12.2, p50: 13, p60: 14.6, p70: 16.3, p80: 18.3, p90: 21.1, p97_5: 25.4, p99: 27.7 },
+  43: { p1: 5.3, p2_5: 6.5, p10: 8.7, p20: 10.2, p30: 11.3, p40: 12.2, p50: 13, p60: 14.6, p70: 16.3, p80: 18.3, p90: 21.1, p97_5: 25.4, p99: 27.8 },
+  44: { p1: 5.2, p2_5: 6.4, p10: 8.7, p20: 10.2, p30: 11.2, p40: 12.1, p50: 13, p60: 14.6, p70: 16.3, p80: 18.4, p90: 21.2, p97_5: 25.5, p99: 27.8 },
+  45: { p1: 5.2, p2_5: 6.4, p10: 8.7, p20: 10.2, p30: 11.2, p40: 12.1, p50: 13, p60: 14.6, p70: 16.3, p80: 18.4, p90: 21.2, p97_5: 25.6, p99: 27.9 },
+  46: { p1: 5.1, p2_5: 6.4, p10: 8.7, p20: 10.1, p30: 11.2, p40: 12.1, p50: 13, p60: 14.6, p70: 16.4, p80: 18.4, p90: 21.2, p97_5: 25.6, p99: 28 },
+  47: { p1: 5.1, p2_5: 6.3, p10: 8.6, p20: 10.1, p30: 11.2, p40: 12.1, p50: 13, p60: 14.6, p70: 16.4, p80: 18.4, p90: 21.3, p97_5: 25.7, p99: 28.1 },
+  48: { p1: 5.1, p2_5: 6.3, p10: 8.6, p20: 10.1, p30: 11.2, p40: 12.1, p50: 13, p60: 14.6, p70: 16.4, p80: 18.5, p90: 21.3, p97_5: 25.8, p99: 28.2 },
+  49: { p1: 5, p2_5: 6.3, p10: 8.6, p20: 10.1, p30: 11.2, p40: 12.1, p50: 13, p60: 14.6, p70: 16.4, p80: 18.5, p90: 21.4, p97_5: 25.9, p99: 28.3 },
+  50: { p1: 5, p2_5: 6.3, p10: 8.6, p20: 10.1, p30: 11.2, p40: 12.1, p50: 13, p60: 14.6, p70: 16.4, p80: 18.5, p90: 21.4, p97_5: 25.9, p99: 28.4 },
+  51: { p1: 5, p2_5: 6.2, p10: 8.6, p20: 10.1, p30: 11.2, p40: 12.1, p50: 13, p60: 14.6, p70: 16.5, p80: 18.6, p90: 21.5, p97_5: 26, p99: 28.5 },
+  52: { p1: 4.9, p2_5: 6.2, p10: 8.5, p20: 10.1, p30: 11.1, p40: 12.1, p50: 13, p60: 14.7, p70: 16.5, p80: 18.6, p90: 21.6, p97_5: 26.1, p99: 28.6 },
+  53: { p1: 4.9, p2_5: 6.2, p10: 8.5, p20: 10, p30: 11.1, p40: 12.1, p50: 13, p60: 14.7, p70: 16.5, p80: 18.6, p90: 21.6, p97_5: 26.2, p99: 28.7 },
+  54: { p1: 4.9, p2_5: 6.2, p10: 8.5, p20: 10, p30: 11.1, p40: 12.1, p50: 13, p60: 14.7, p70: 16.5, p80: 18.7, p90: 21.7, p97_5: 26.3, p99: 28.8 },
+  55: { p1: 4.8, p2_5: 6.1, p10: 8.5, p20: 10, p30: 11.1, p40: 12.1, p50: 13, p60: 14.7, p70: 16.6, p80: 18.7, p90: 21.8, p97_5: 26.4, p99: 28.9 },
+  56: { p1: 4.8, p2_5: 6.1, p10: 8.5, p20: 10, p30: 11.1, p40: 12.1, p50: 13, p60: 14.7, p70: 16.6, p80: 18.8, p90: 21.8, p97_5: 26.5, p99: 29 },
+  57: { p1: 4.8, p2_5: 6.1, p10: 8.5, p20: 10, p30: 11.1, p40: 12.1, p50: 13, p60: 14.7, p70: 16.6, p80: 18.8, p90: 21.9, p97_5: 26.6, p99: 29.2 },
+  58: { p1: 4.8, p2_5: 6, p10: 8.4, p20: 10, p30: 11.1, p40: 12.1, p50: 13, p60: 14.8, p70: 16.7, p80: 18.9, p90: 22, p97_5: 26.7, p99: 29.3 },
+  59: { p1: 4.7, p2_5: 6, p10: 8.4, p20: 10, p30: 11.1, p40: 12.1, p50: 13, p60: 14.8, p70: 16.7, p80: 18.9, p90: 22, p97_5: 26.8, p99: 29.4 },
+  60: { p1: 4.7, p2_5: 6, p10: 8.4, p20: 10, p30: 11.1, p40: 12.1, p50: 13, p60: 14.8, p70: 16.7, p80: 19, p90: 22.1, p97_5: 26.9, p99: 29.5 },
+  61: { p1: 4.7, p2_5: 6, p10: 8.4, p20: 10, p30: 11.1, p40: 12.1, p50: 13, p60: 14.8, p70: 16.8, p80: 19, p90: 22.2, p97_5: 27, p99: 29.7 },
+  62: { p1: 4.6, p2_5: 6, p10: 8.4, p20: 10, p30: 11.1, p40: 12.1, p50: 13, p60: 14.8, p70: 16.8, p80: 19.1, p90: 22.2, p97_5: 27.1, p99: 29.8 },
+  63: { p1: 4.6, p2_5: 5.9, p10: 8.4, p20: 10, p30: 11.1, p40: 12.1, p50: 13, p60: 14.9, p70: 16.8, p80: 19.1, p90: 22.3, p97_5: 27.2, p99: 29.9 },
+  64: { p1: 4.6, p2_5: 5.9, p10: 8.4, p20: 10, p30: 11.1, p40: 12.1, p50: 13, p60: 14.9, p70: 16.9, p80: 19.2, p90: 22.4, p97_5: 27.4, p99: 30 },
+  65: { p1: 4.6, p2_5: 5.9, p10: 8.4, p20: 10, p30: 11.1, p40: 12.1, p50: 13, p60: 14.9, p70: 16.9, p80: 19.2, p90: 22.5, p97_5: 27.5, p99: 30.2 },
+  66: { p1: 4.5, p2_5: 5.9, p10: 8.4, p20: 10, p30: 11.1, p40: 12.1, p50: 13, p60: 14.9, p70: 16.9, p80: 19.3, p90: 22.5, p97_5: 27.6, p99: 30.3 },
+  67: { p1: 4.5, p2_5: 5.9, p10: 8.3, p20: 10, p30: 11.1, p40: 12.1, p50: 13, p60: 14.9, p70: 17, p80: 19.3, p90: 22.6, p97_5: 27.7, p99: 30.4 },
+  68: { p1: 4.5, p2_5: 5.8, p10: 8.3, p20: 10, p30: 11.1, p40: 12.1, p50: 13.1, p60: 15, p70: 17, p80: 19.4, p90: 22.7, p97_5: 27.8, p99: 30.5 },
+  69: { p1: 4.5, p2_5: 5.8, p10: 8.3, p20: 9.9, p30: 11.1, p40: 12.1, p50: 13.1, p60: 15, p70: 17, p80: 19.4, p90: 22.8, p97_5: 27.9, p99: 30.7 },
+  70: { p1: 4.4, p2_5: 5.8, p10: 8.3, p20: 9.9, p30: 11.1, p40: 12.1, p50: 13.1, p60: 15, p70: 17.1, p80: 19.5, p90: 22.8, p97_5: 28, p99: 30.8 },
+  71: { p1: 4.4, p2_5: 5.8, p10: 8.3, p20: 9.9, p30: 11.1, p40: 12.1, p50: 13.1, p60: 15, p70: 17.1, p80: 19.5, p90: 22.9, p97_5: 28.1, p99: 30.9 },
+  72: { p1: 4.4, p2_5: 5.8, p10: 8.3, p20: 9.9, p30: 11.1, p40: 12.1, p50: 13.1, p60: 15, p70: 17.1, p80: 19.6, p90: 23, p97_5: 28.2, p99: 31.1 },
+  73: { p1: 4.4, p2_5: 5.7, p10: 8.3, p20: 9.9, p30: 11.1, p40: 12.1, p50: 13.1, p60: 15.1, p70: 17.2, p80: 19.6, p90: 23.1, p97_5: 28.3, p99: 31.2 },
+  74: { p1: 4.3, p2_5: 5.7, p10: 8.3, p20: 9.9, p30: 11.1, p40: 12.1, p50: 13.1, p60: 15.1, p70: 17.2, p80: 19.7, p90: 23.1, p97_5: 28.5, p99: 31.3 },
+  75: { p1: 4.3, p2_5: 5.7, p10: 8.3, p20: 9.9, p30: 11.1, p40: 12.2, p50: 13.1, p60: 15.1, p70: 17.2, p80: 19.7, p90: 23.2, p97_5: 28.6, p99: 31.5 },
+  76: { p1: 4.3, p2_5: 5.7, p10: 8.3, p20: 9.9, p30: 11.1, p40: 12.2, p50: 13.1, p60: 15.1, p70: 17.3, p80: 19.8, p90: 23.3, p97_5: 28.7, p99: 31.6 },
+  77: { p1: 4.3, p2_5: 5.7, p10: 8.3, p20: 9.9, p30: 11.1, p40: 12.2, p50: 13.1, p60: 15.2, p70: 17.3, p80: 19.9, p90: 23.4, p97_5: 28.8, p99: 31.7 },
+  78: { p1: 4.3, p2_5: 5.7, p10: 8.2, p20: 9.9, p30: 11.1, p40: 12.2, p50: 13.1, p60: 15.2, p70: 17.4, p80: 19.9, p90: 23.4, p97_5: 28.9, p99: 31.8 },
+  79: { p1: 4.2, p2_5: 5.6, p10: 8.2, p20: 9.9, p30: 11.1, p40: 12.2, p50: 13.1, p60: 15.2, p70: 17.4, p80: 20, p90: 23.5, p97_5: 29, p99: 32 },
+  80: { p1: 4.2, p2_5: 5.6, p10: 8.2, p20: 9.9, p30: 11.1, p40: 12.2, p50: 13.2, p60: 15.2, p70: 17.4, p80: 20, p90: 23.6, p97_5: 29.1, p99: 32.1 },
+  81: { p1: 4.2, p2_5: 5.6, p10: 8.2, p20: 9.9, p30: 11.1, p40: 12.2, p50: 13.2, p60: 15.2, p70: 17.5, p80: 20.1, p90: 23.7, p97_5: 29.2, p99: 32.2 },
+  82: { p1: 4.2, p2_5: 5.6, p10: 8.2, p20: 9.9, p30: 11.1, p40: 12.2, p50: 13.2, p60: 15.3, p70: 17.5, p80: 20.1, p90: 23.7, p97_5: 29.3, p99: 32.4 },
+  83: { p1: 4.2, p2_5: 5.6, p10: 8.2, p20: 9.9, p30: 11.1, p40: 12.2, p50: 13.2, p60: 15.3, p70: 17.5, p80: 20.2, p90: 23.8, p97_5: 29.4, p99: 32.5 },
+  84: { p1: 4.1, p2_5: 5.6, p10: 8.2, p20: 9.9, p30: 11.1, p40: 12.2, p50: 13.2, p60: 15.3, p70: 17.6, p80: 20.2, p90: 23.9, p97_5: 29.5, p99: 32.6 },
+  85: { p1: 4.1, p2_5: 5.6, p10: 8.2, p20: 9.9, p30: 11.2, p40: 12.2, p50: 13.2, p60: 15.3, p70: 17.6, p80: 20.3, p90: 24, p97_5: 29.7, p99: 32.7 },
+  86: { p1: 4.1, p2_5: 5.5, p10: 8.2, p20: 9.9, p30: 11.2, p40: 12.2, p50: 13.2, p60: 15.3, p70: 17.6, p80: 20.3, p90: 24, p97_5: 29.8, p99: 32.9 },
+  87: { p1: 4.1, p2_5: 5.5, p10: 8.2, p20: 9.9, p30: 11.2, p40: 12.2, p50: 13.2, p60: 15.4, p70: 17.7, p80: 20.4, p90: 24.1, p97_5: 29.9, p99: 33 },
+  88: { p1: 4.1, p2_5: 5.5, p10: 8.2, p20: 9.9, p30: 11.2, p40: 12.2, p50: 13.2, p60: 15.4, p70: 17.7, p80: 20.4, p90: 24.2, p97_5: 30, p99: 33.1 },
+};
 
 export function convertTestosteroneUnits(value: number, fromUnit: string, toUnit: string): number {
   if (fromUnit === toUnit) return value;
@@ -54,48 +120,67 @@ export function convertTestosteroneUnits(value: number, fromUnit: string, toUnit
   return value;
 }
 
-export function calculateTestosteronePercentile(testosteroneLevel: number, age: number, unit: string = "ng/dl"): number {
-  // Convert to ng/dL for calculation
-  const testosteroneNgDl = unit === "nmol/l" 
-    ? convertTestosteroneUnits(testosteroneLevel, "nmol/l", "ng/dl") 
-    : testosteroneLevel;
-
-  // Find appropriate age range
-  const ageRange = testosteroneReferenceRanges.find(
-    range => age >= range.ageRange[0] && age <= range.ageRange[1]
-  );
-
-  if (!ageRange) {
-    // Fallback to closest range
-    if (age < 18) return 0;
-    return calculateTestosteronePercentile(testosteroneLevel, 70, unit);
-  }
-
-  const { percentiles } = ageRange;
-  
-  // Calculate percentile based on reference ranges
-  if (testosteroneNgDl <= percentiles.p5) return 5;
-  if (testosteroneNgDl <= percentiles.p10) return interpolate(testosteroneNgDl, percentiles.p5, percentiles.p10, 5, 10);
-  if (testosteroneNgDl <= percentiles.p25) return interpolate(testosteroneNgDl, percentiles.p10, percentiles.p25, 10, 25);
-  if (testosteroneNgDl <= percentiles.p50) return interpolate(testosteroneNgDl, percentiles.p25, percentiles.p50, 25, 50);
-  if (testosteroneNgDl <= percentiles.p75) return interpolate(testosteroneNgDl, percentiles.p50, percentiles.p75, 50, 75);
-  if (testosteroneNgDl <= percentiles.p90) return interpolate(testosteroneNgDl, percentiles.p75, percentiles.p90, 75, 90);
-  if (testosteroneNgDl <= percentiles.p95) return interpolate(testosteroneNgDl, percentiles.p90, percentiles.p95, 90, 95);
-  
-  return Math.min(99, 95 + (testosteroneNgDl - percentiles.p95) / (percentiles.p95 * 0.1) * 4);
+function getAgeData(age: number): AgePercentiles {
+  // Clamp age to available range
+  const clampedAge = Math.max(18, Math.min(88, Math.round(age)));
+  return testosteroneByAge[clampedAge] || testosteroneByAge[50];
 }
 
-function interpolate(value: number, x1: number, x2: number, y1: number, y2: number): number {
-  return Math.round(y1 + (value - x1) * (y2 - y1) / (x2 - x1));
+export function calculateTestosteronePercentile(testosteroneLevel: number, age: number, unit: string = "nmol/l"): number {
+  // Convert to nmol/L for calculation (data is in nmol/L)
+  const testosteroneNmolL = unit === "ng/dl" 
+    ? convertTestosteroneUnits(testosteroneLevel, "ng/dl", "nmol/l") 
+    : testosteroneLevel;
+
+  const ageData = getAgeData(age);
+  
+  // Define percentile breakpoints
+  const percentileMap: [number, number][] = [
+    [1, ageData.p1],
+    [2.5, ageData.p2_5],
+    [10, ageData.p10],
+    [20, ageData.p20],
+    [30, ageData.p30],
+    [40, ageData.p40],
+    [50, ageData.p50],
+    [60, ageData.p60],
+    [70, ageData.p70],
+    [80, ageData.p80],
+    [90, ageData.p90],
+    [97.5, ageData.p97_5],
+    [99, ageData.p99],
+  ];
+
+  // Handle edge cases
+  if (testosteroneNmolL <= percentileMap[0][1]) return 1;
+  if (testosteroneNmolL >= percentileMap[percentileMap.length - 1][1]) return 99;
+
+  // Find where the value falls and interpolate
+  for (let i = 0; i < percentileMap.length - 1; i++) {
+    const [lowerPercentile, lowerValue] = percentileMap[i];
+    const [upperPercentile, upperValue] = percentileMap[i + 1];
+    
+    if (testosteroneNmolL >= lowerValue && testosteroneNmolL <= upperValue) {
+      // Linear interpolation
+      if (upperValue === lowerValue) return lowerPercentile;
+      const ratio = (testosteroneNmolL - lowerValue) / (upperValue - lowerValue);
+      return Math.round(lowerPercentile + ratio * (upperPercentile - lowerPercentile));
+    }
+  }
+
+  return 50; // Fallback
 }
 
 export function getTestosteroneInterpretation(percentile: number, testosteroneLevel: number, unit: string): string {
-  const testosteroneNgDl = unit === "nmol/l" 
-    ? convertTestosteroneUnits(testosteroneLevel, "nmol/l", "ng/dl") 
+  const testosteroneNmolL = unit === "ng/dl" 
+    ? convertTestosteroneUnits(testosteroneLevel, "ng/dl", "nmol/l") 
     : testosteroneLevel;
 
-  if (testosteroneNgDl < 300) {
+  // Low testosterone threshold is approximately 8-10 nmol/L
+  if (testosteroneNmolL < 8) {
     return "below normal range, suggesting possible hypogonadism";
+  } else if (percentile < 10) {
+    return "in the lower 10th percentile for their age";
   } else if (percentile < 25) {
     return "in the lower quartile for their age group";
   } else if (percentile >= 25 && percentile < 75) {
