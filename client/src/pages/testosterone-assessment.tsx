@@ -119,12 +119,7 @@ export default function TestosteroneAssessmentPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-sm text-medical-gray mb-4 md:mb-0">
-              © 2024 Medical Assessment Tools. For healthcare professionals only.
-            </div>
-            <div className="flex items-center space-x-6 text-sm text-medical-gray">
-              <a href="#" className="hover:text-medical-blue transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-medical-blue transition-colors">Terms of Use</a>
-              <a href="#" className="hover:text-medical-blue transition-colors">Support</a>
+               Created by Arthur Grabowski based on
             </div>
           </div>
         </div>
