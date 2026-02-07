@@ -119,7 +119,8 @@ export default function TestosteroneAssessmentPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-sm text-medical-gray mb-4 md:mb-0">
-               Created by Arthur Grabowski based on
+               Created by Arthur Grabowski based on Kelsey TW, Li LQ, Mitchell RT, Whelan A, Anderson RA, et al. (2014) A Validated Age-Related Normative Model for Male Total Testosterone Shows
+Increasing Variance but No Decline after Age 40 Years.
             </div>
           </div>
         </div>
